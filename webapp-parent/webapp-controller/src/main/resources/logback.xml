@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--web应用名称-->
+    <contextName>webApp</contextName>
+    <!--自定义变量名， userNamename}来使用-->
+    <property name="test" value="testValue"/>
+    <!--获取时间戳字符串，key为名称，datePattern为格式化时间戳为指定格式字符串-->
+    <timestamp key="time" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <!--定义一个日志存放目录属性，方便修改-->
+    <property name="filePath" value="E:\java\logfile"/>
+
+    <!--自定义输出源-->
+
+    <!--输出到控制台-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder
+            class 默认配置为PatternLayoutEncoder -->
+        <encoder charset="UTF-8" class="com.my.webapp.app.logback.PatternLayoutEncoder">
+            <!--输出格式
+            %n 换行
+            %-5level 从左往右占5个字符，输出打印级别
+            %d 输出日期，格式为HH:mm:ss
+            %logger  输出该日志的类或包
+            %msg 日志记录
+            %method 打印该日志的方法
+            如果需要打印其它类型数据则需要自定义PatternLayoutEncoder方法(比如%request)
+            -->
+            <pattern>%n[%-5level]--%d{HH:mm:ss}--%logger--%thread--%method--[%request]--%msg</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到文件中-->
+    <appender name="LogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--设置日志滚动策略，比如切换文件记录日志，或重命名等
+        clss: 滚动策略 TimeBasedRollingPolicy为最常见滚动策略，根据时间来制定
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${filePath}/web-app-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志保留的最大个数，超过了则删除最旧的文件-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%n[%-5level]-%d{HH:mm:ss}-%logger-%thread-[%method]-%msg</pattern>
+        </encoder>
+
+        <!--日志文件最大的大小-->
+        <!--class 日志通知触发策略 SizeBasedTriggeringPolicy，超过设定大小则发出通知-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <!--单个日志文件大小限制，超过则记录在新的日志文件中-->
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!--logger用于设置某个包或某个类的日志打印级别，以及设置appender
+    userNamename: 指定的包或类
+        level: 打印级别 TRACE, DEBUG, INFO, WARN, ERROR, ALL, OFF，不区分大小写，还有特殊值INHERITED或者同义词NULL，代表强制执行上级的级别。
+                如果未设置此属性，那么当前loger将会继承上级的级别。
+        additivity: 是否向上级loger传递打印信息。默认是true。
+    -->
+    <!--http包下的日志输出到控制台，不会传递给上级处理-->
+    <logger name="org.apache.http" level="INFO"  additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <!--这里指定springframework包下所有的类，日志输出级别为INFO，additivity默认为true。则将日志信息递交给上级logger(root)处理，
+        要处理的日志信息为INFO及之后的级别
+    -->
+    <logger name="org.springframework" level="INFO"/>
+
+    <logger name="com.ulisesbocchio" level="INFO"/>
+    <!--根logger-->
+    <root level="DEBUG">
+        <!--输出到控制台-->
+        <appender-ref ref="STDOUT"/>
+        <!--输出到指定文件-->
+        <!--<appender-ref ref="LogFile"/>-->
+    </root>
+</configuration>

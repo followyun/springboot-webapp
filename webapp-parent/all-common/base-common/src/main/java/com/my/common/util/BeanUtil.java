@@ -1,6 +1,5 @@
 package com.my.common.util;
 
-import com.my.common.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.beans.BeanMap;
 
@@ -77,13 +76,4 @@ public class BeanUtil extends BeanUtils {
         return strBuilder.toString();
     }
 
-    public static void main(String[] args) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", 1L);
-        map.put("userName", null);
-        map.put("password", "123456hy");
-        User user = mapToBean(map, User.class);
-        System.out.println(user.getUserName());
-        System.out.println(user.getId());
-    }
 }

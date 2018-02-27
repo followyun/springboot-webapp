@@ -2,6 +2,9 @@ package com.my.webapp.app.controller;
 
 import com.my.webapp.app.controller.param.EncryptParam;
 import com.my.webapp.app.controller.response.Response;
+import com.my.webapp.common.pojo.User;
+import com.my.webapp.redis.RedisManager;
+import com.my.webapp.redis.RedisService;
 import com.my.webapp.service.ExceptionService;
 import io.swagger.annotations.*;
 import org.jasypt.encryption.StringEncryptor;
@@ -12,7 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  */
@@ -44,6 +50,23 @@ public class TestController extends BaseController {
     @RequestMapping(value = "/other", method = RequestMethod.GET)
     public Response otherTest() throws Exception{
         exceptionService.businessExceptionTest();
+        return Response.success(null);
+    }
+
+    @Autowired
+    private RedisService redisService;
+    @RequestMapping(value = "/redisTest/{key}/{value}", method = RequestMethod.GET)
+    public Response redisTest(@PathVariable String key, @PathVariable String value) throws Exception{
+
+        List<User> users = new ArrayList<User>();
+        User u1 = new User("测试1", 12);
+        User u2 = new User("测试2", 26);
+        users.add(u1);
+        users.add(u2);
+       // redisService.setObject(key, users);
+        List<User> u = redisService.getList(key, User.class);
+        logger.debug(u.get(0).getUserName());
+        logger.debug(u.get(0).getYear()+"");
         return Response.success(null);
     }
 

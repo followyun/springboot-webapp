@@ -5,6 +5,7 @@ import com.my.webapp.app.controller.response.Response;
 import com.my.webapp.common.pojo.User;
 import com.my.webapp.redis.RedisManager;
 import com.my.webapp.redis.RedisService;
+import com.my.webapp.redis.constants.RedisKeyPrefix;
 import com.my.webapp.service.ExceptionService;
 import io.swagger.annotations.*;
 import org.jasypt.encryption.StringEncryptor;

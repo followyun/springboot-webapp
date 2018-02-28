@@ -3,13 +3,11 @@ package com.my.webapp.redis.impl;
 import com.my.webapp.redis.RedisManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  */
-@Component
 public class StringRedisManagerImpl implements RedisManager {
 
     @Autowired

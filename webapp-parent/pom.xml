@@ -19,6 +19,7 @@
         <project.encoding>UTF-8</project.encoding>
         <project.version>1.0.0-SNAPSHOT</project.version>
         <swagger2.version>2.7.0</swagger2.version>
+        <httpclient.version>4.5.3</httpclient.version>
     </properties>
 
     <!--dependencyManagement属性: 表示子模块添加了和父模块一样的依赖，如果子模块没有申明版本，则使用父类的版本，如果子模块没有添加该依赖，则不会继承

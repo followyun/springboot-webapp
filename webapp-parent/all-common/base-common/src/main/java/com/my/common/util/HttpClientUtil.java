@@ -6,6 +6,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
@@ -139,6 +140,9 @@ public class HttpClientUtil {
 
     public static String doGet(String url) {
 
+        if (url == null || "".equals(url.trim())) {
+            throw new IllegalArgumentException("url is null！");
+        }
         CloseableHttpClient client = null;
         if (url.startsWith(httpPrefix)) {
             client = createSSLInsecureClient();
@@ -179,6 +183,41 @@ public class HttpClientUtil {
         }
 
         return responseStr;
+    }
+
+    /**
+     * get请求
+     *
+     * @param url          请求url
+     * @param pathValueMap 装有地址栏参数的集合
+     * @param charset      地址栏参数编码
+     * @return
+     */
+    public static String doGet(String url, Map<String, String> pathValueMap, String charset) {
+        if (url == null || "".equals(url.trim())) {
+            throw new IllegalArgumentException("url is null！");
+        }
+        List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
+
+        for (Map.Entry<String, String> entry :
+                pathValueMap.entrySet()) {
+            BasicNameValuePair nameValuePair = new BasicNameValuePair(entry.getKey(), entry.getValue());
+            nameValuePairs.add(nameValuePair);
+        }
+
+        String finalUrl = url + "?" + URLEncodedUtils.format(nameValuePairs, charset);
+        return doGet(finalUrl);
+    }
+
+    /**
+     * get请求，参数默认编码UTF-8
+     *
+     * @param url
+     * @param pathValueMap
+     * @return
+     */
+    public static String doGet(String url, Map<String, String> pathValueMap) {
+        return doGet(url, pathValueMap, "UTF-8");
     }
 
     public static String doGet(String url, HashMap<String, String> headersMap) {

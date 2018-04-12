@@ -21,6 +21,21 @@ spring:
       maximum-pool-size: 15
       #最小空闲连接数
       minIdle: 5
+  #redis配置
+  redis:
+    host: 10.103.7.107
+    port: 6379
+    pool:
+    #最大连接数
+      max-active: 8
+      #连接池中的最大空闲连接
+      max-idle: 8
+      #等待可用连接的最大时间，单位毫秒，默认值为-1，表示永不超时。如果超过等待时间，则直接抛出JedisConnectionException
+      max-wait: -1
+      #连接池中的最小空闲连接
+      min-idle: 0
+    password: 12345678
+    database: 0
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.webapp.dao.mapper.CusBankCardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.my.webapp.dao.entity.CusBankCard">
+        <id column="id" property="id" />
+        <result column="customer_id" property="customerId" />
+        <result column="real_name" property="realName" />
+        <result column="bank_value" property="bankValue" />
+        <result column="card_no" property="cardNo" />
+        <result column="bind_mobile" property="bindMobile" />
+        <result column="type" property="type" />
+        <result column="active_flag" property="activeFlag" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, customer_id, real_name, bank_value, card_no, bind_mobile, type, active_flag, created_time, updated_time
+    </sql>
+
+</mapper>
